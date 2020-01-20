@@ -6,7 +6,7 @@ Author:  Eric Wildfong
 ID:      190559940
 Email:   wild9940@mylaurier.ca
 Section: CP164 Winter 2020
-__updated__ = "2020-01-13"
+__updated__ = "2020-01-20"
 -------------------------------------------------------
 """
 from Food import Food
@@ -32,7 +32,7 @@ def get_food():
     else:
         is_vegetarian = False
     calories = int(input("Calories: "))
-    
+
     food = Food(name, origin, is_vegetarian, calories)
 
     return food
@@ -53,12 +53,12 @@ def read_food(line):
     """
 
     options = line.split("|")
-    
+
     name = options[0]
     origin = int(options[1])
-    is_vegetarian = bool(options[2])
+    is_vegetarian = options[2].lower() == 'true'
     calories = int(options[3])
-    
+
     food = Food(name, origin, is_vegetarian, calories)
 
     return food
@@ -78,7 +78,7 @@ def read_foods(file_variable):
     """
 
     foods = []
-    
+
     line = file_variable.readline()
     while line != "":
         foods.append(read_food(line.strip()))
@@ -105,7 +105,8 @@ def write_foods(file_variable, foods):
     """
 
     for food in foods:
-        file_variable.write("{}|{}|{}|{}\n".format(food.name,food.origin,food.is_vegetarian,food.calories))
+        file_variable.write("{}|{}|{}|{}\n".format(
+            food.name, food.origin, food.is_vegetarian, food.calories))
 
     return
 
@@ -148,9 +149,10 @@ def by_origin(foods, origin):
     """
     assert origin in range(len(Food.ORIGIN))
 
-
-    # Your code here
     origins = []
+    for food in foods:
+        if food.origin == origin:
+            origins.append(food)
 
     return origins
 
@@ -169,10 +171,11 @@ def average_calories(foods):
     -------------------------------------------------------
     """
 
-    # Your code here
     avg = 0
+    for food in foods:
+        avg += food.calories
 
-    return avg
+    return avg / len(foods)
 
 
 def calories_by_origin(foods, origin):
@@ -191,10 +194,14 @@ def calories_by_origin(foods, origin):
     """
     assert origin in range(len(Food.ORIGIN))
 
-    # Your code here
     avg = 0
+    counter = 0
+    for food in foods:
+      if food.origin == origin:
+        avg += food.calories
+        counter += 1
 
-    return avg
+    return avg/counter
 
 
 def food_table(foods):
@@ -210,8 +217,12 @@ def food_table(foods):
         None
     -------------------------------------------------------
     """
+    food = sorted(foods)
+    print("Food                                Origin       Vegetarian Calories")
+    print("----------------------------------- ------------ ---------- --------")
 
-    # Your code here
+    for f in food:
+      print("{:35} {:12} {:>10} {:8}".format(f.name,Food.ORIGIN[f.origin],str(f.is_vegetarian),f.calories))
 
     return
 
@@ -235,7 +246,9 @@ def food_search(foods, origin, max_cals, is_veg):
     """
     assert origin in range(-1, len(Food.ORIGIN))
 
-    # Your code here
     result = []
+    for food in foods:
+      if (origin == -1 or origin == food.origin) and (max_cals == 0 or max_cals <= food.calories) and (not is_veg or is_veg == food.is_vegetarian):
+        result.append(food)
 
     return result
