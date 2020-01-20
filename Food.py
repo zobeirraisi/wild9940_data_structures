@@ -2,11 +2,11 @@
 -------------------------------------------------------
 Food class definition.
 -------------------------------------------------------
-Author:  David Brown
-ID:      999999999
-Email:   dbrown@wlu.ca
+Author:  Eric Wildfong
+ID:      190559940
+Email:   wild9940@mylaurier.ca
 Section: CP164 Winter 2020
-__updated__ = "2020-01-10"
+__updated__ = "2020-01-13"
 -------------------------------------------------------
 """
 
@@ -37,9 +37,12 @@ class Food:
         -------------------------------------------------------
         """
 
-        # your code here
+        s = ""
+        
+        for i in range(len(Food.ORIGIN)):
+            s += "{:2} {}\n".format(i,Food.ORIGIN[i])
 
-        return
+        return s
 
     def __init__(self, name, origin, is_vegetarian, calories):
         """
@@ -78,9 +81,9 @@ class Food:
         -------------------------------------------------------
         """
 
-        # your code here
+        s = "Name:       {}\nOrigin:     {}\nVegetarian: {}\nCalories:   {}".format(self.name,Food.ORIGIN[self.origin],self.is_vegetarian,self.calories)
 
-        return
+        return s
 
     def __eq__(self, rs):
         """
