@@ -175,7 +175,7 @@ def average_calories(foods):
     for food in foods:
         avg += food.calories
 
-    return avg / len(foods)
+    return avg // len(foods)
 
 
 def calories_by_origin(foods, origin):
@@ -197,11 +197,11 @@ def calories_by_origin(foods, origin):
     avg = 0
     counter = 0
     for food in foods:
-      if food.origin == origin:
-        avg += food.calories
-        counter += 1
+        if food.origin == origin:
+            avg += food.calories
+            counter += 1
 
-    return avg/counter
+    return avg // counter
 
 
 def food_table(foods):
