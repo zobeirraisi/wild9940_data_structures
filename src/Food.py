@@ -146,9 +146,7 @@ class Food:
               name|origin|is_vegetarian to file_variable.
         -------------------------------------------------------
         """
-        print("{}|{}|{}|{}"
-              .format(self.name, self.origin, self.is_vegetarian, self.calories),
-              file=file_variable)
+        file_variable.write("{}|{}|{}|{}\n".format(self.name, self.origin, self.is_vegetarian, self.calories))
         return
 
     def key(self):
