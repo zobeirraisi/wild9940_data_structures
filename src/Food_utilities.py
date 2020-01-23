@@ -222,7 +222,7 @@ def food_table(foods):
     print("----------------------------------- ------------ ---------- --------")
 
     for f in food:
-      print("{:35} {:12} {:>10} {:8}".format(f.name,Food.ORIGIN[f.origin],str(f.is_vegetarian),f.calories))
+        print("{:35} {:12} {:>10} {:8}".format(f.name,Food.ORIGIN[f.origin],str(f.is_vegetarian),f.calories))
 
     return
 
@@ -248,7 +248,7 @@ def food_search(foods, origin, max_cals, is_veg):
 
     result = []
     for food in foods:
-      if (origin == -1 or origin == food.origin) and (max_cals == 0 or max_cals <= food.calories) and (not is_veg or is_veg == food.is_vegetarian):
-        result.append(food)
+        if (origin == -1 or origin == food.origin) and (max_cals == 0 or max_cals >= food.calories) and (not is_veg or is_veg == food.is_vegetarian):
+            result.append(food)
 
     return result
