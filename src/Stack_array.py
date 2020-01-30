@@ -100,3 +100,52 @@ class Stack:
         """
         for value in self._values[::-1]:
             yield value
+    
+    def split_alt(self):
+        """
+        -------------------------------------------------------
+        Splits the source stack into separate target stacks with values
+        alternating into the targets. At finish source stack is empty.
+        Use: target1, target2 = source.split_alt()
+        -------------------------------------------------------
+        Returns:
+            target1 - contains alternating values from source (Stack)
+            target2 - contains other alternating values from source (Stack)
+        -------------------------------------------------------
+        """
+        target1 = Stack()
+        target2 = Stack()
+    
+        counter = 0
+        while len(self._values) > 0:
+            if counter % 2:
+                target1._values.append(self._values.pop())
+            else:
+                target2._values.append(self._values.pop())
+            counter += 1
+        return target1,target2
+    
+    def combine(self, source1, source2):
+        """
+        -------------------------------------------------------
+        Combines two source stacks into the current target stack.
+        When finished, the contents of source1 and source2 are interlaced
+        into target and source1 and source2 are empty.
+        Use: target.combine(source1, source2)
+        -------------------------------------------------------
+        Parameters:
+            source1 - an array-based stack (Stack)
+            source2 - an array-based stack (Stack)
+        Returns:
+            None
+        -------------------------------------------------------
+        """
+    
+        counter = 0
+        while len(source1._values) > 0 or len(source2._values) > 0:
+            if len(source1._values) > 0 and counter % 2:
+                self._values.append(source1._values.pop())
+            elif len(source2._values) > 0:
+                self._values.append(source2._values.pop())
+            counter += 1
+        return
