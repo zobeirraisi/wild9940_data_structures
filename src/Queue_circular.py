@@ -2,11 +2,11 @@
 -------------------------------------------------------
 Circular array version of the Queue ADT.
 -------------------------------------------------------
-Author:  David Brown
-ID:      999999999
-Email:   dbrown@wlu.ca
+Author:  Eric Wildfong
+ID:      190559940
+Email:   wild9940@mylaurier.ca
 Term:    Winter 2020
-__updated__ = "2020-01-16"
+__updated__ = "2020-02-04"
 -------------------------------------------------------
 """
 # pylint: disable=W0212
@@ -55,7 +55,7 @@ class Queue:
         -------------------------------------------------------
         """
 
-        # your code here
+        return self._count == 0
 
     def is_full(self):
         """
@@ -68,7 +68,7 @@ class Queue:
         -------------------------------------------------------
         """
 
-        # your code here
+        return self._count == self._max_size
 
     def __len__(self):
         """
@@ -81,7 +81,7 @@ class Queue:
         -------------------------------------------------------
         """
 
-        # your code here
+        return self._count
 
     def insert(self, value):
         """
@@ -97,7 +97,12 @@ class Queue:
         """
         assert self._count < self._max_size, "queue is full"
 
-        # your code here
+        n = self._rear + 1
+        if n >= self._max_size:
+            n = 0
+        self._values[self._rear] = deepcopy(value)
+        self._rear = next
+        self._count += 1
 
     def remove(self):
         """
@@ -112,7 +117,12 @@ class Queue:
         """
         assert self._count > 0, "Cannot remove from an empty queue"
 
-        # your code here
+        value = self._values[self._front]
+        self._front += 1
+        if self._front >= self._max_size:
+            self._front = 0
+        self._count -= 1
+        return value
 
     def peek(self):
         """
@@ -127,7 +137,9 @@ class Queue:
         """
         assert self._count > 0, "Cannot peek at an empty queue"
 
-        # your code here
+        value = deepcopy(self._values[self._front])
+        
+        return value
 
     def __iter__(self):
         """
