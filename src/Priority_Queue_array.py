@@ -144,3 +144,71 @@ class Priority_Queue:
         """
         for value in self._values:
             yield value
+
+    def split_key(self, key):
+        """
+        -------------------------------------------------------
+        Splits a priority queue into two depending on an external
+        priority key. The source priority queue is empty when the method
+        ends. The order of the values from source is preserved.
+        Use: target1, target2 = source.split_key(key)
+        -------------------------------------------------------
+        Parameters:
+            key - a data object (?)
+        Returns:
+            target1 - a priority queue that contains all values
+                with priority higher than key (Priority_Queue)
+            target2 - priority queue that contains all values with
+                priority lower than or equal to key (Priority_Queue)
+        -------------------------------------------------------
+        """
+        target1 = Priority_Queue()
+        target2 = Priority_Queue()
+    
+        while len(self._values) > 0:
+            value = deepcopy(self._values.pop(self._first))
+            self._first = None
+            self._set_first()
+            if value > key:
+                target1._values.append(value)
+                if target1._first == None or value < target1._values[target1._first]:
+                    target1._first = len(target1._values)-1
+            else:
+                target2._values.append(value)
+                if target2._first == None or value < target2._values[target2._first]:
+                    target2._first = len(target2._values)-1
+        return target1,target2
+    
+    def split_alt(self):
+        """
+        -------------------------------------------------------
+        Splits a priority queue into two with values going to alternating
+        priority queues. The source priority queue is empty when the method
+        ends. The order of the values in source is preserved.
+        Use: target1, target2 = source.split_alt()
+        -------------------------------------------------------
+        Returns:
+            target1 - a priority queue that contains alternating values
+                from the current queue (Priority_Queue)
+            target2 - priority queue that contains  alternating values
+                from the current queue  (Priority_Queue)
+        -------------------------------------------------------
+        """
+        target1 = Priority_Queue()
+        target2 = Priority_Queue()
+        
+        count = 0
+        while len(self._values) > 0:
+            count += 1
+            value = deepcopy(self._values.pop(self._first))
+            self._first = None
+            self._set_first()
+            if count % 2 == 0:
+                target2._values.append(value)
+                if target2._first == None or value < target2._values[target2._first]:
+                    target2._first = len(target2._values)-1
+            else:
+                target1._values.append(value)
+                if target1._first == None or value < target1._values[target1._first]:
+                    target1._first = len(target1._values)-1
+        return target1,target2
