@@ -101,7 +101,7 @@ class Queue:
         if n >= self._max_size:
             n = 0
         self._values[self._rear] = deepcopy(value)
-        self._rear = next
+        self._rear = n
         self._count += 1
 
     def remove(self):

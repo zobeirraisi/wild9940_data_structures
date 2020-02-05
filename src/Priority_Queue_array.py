@@ -166,10 +166,9 @@ class Priority_Queue:
         target2 = Priority_Queue()
     
         while len(self._values) > 0:
-            value = deepcopy(self._values.pop(self._first))
+            value = deepcopy(self._values.pop(0))
             self._first = None
-            self._set_first()
-            if value > key:
+            if value < key:
                 target1._values.append(value)
                 if target1._first == None or value < target1._values[target1._first]:
                     target1._first = len(target1._values)-1
@@ -200,9 +199,8 @@ class Priority_Queue:
         count = 0
         while len(self._values) > 0:
             count += 1
-            value = deepcopy(self._values.pop(self._first))
+            value = deepcopy(self._values.pop(0))
             self._first = None
-            self._set_first()
             if count % 2 == 0:
                 target2._values.append(value)
                 if target2._first == None or value < target2._values[target2._first]:
