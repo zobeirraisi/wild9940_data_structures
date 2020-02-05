@@ -6,12 +6,13 @@ Author:  Eric Wildfong
 ID:      190559940
 Email:   wild9940@mylaurier.ca
 Section: CP164 Winter 2020
-__updated__ = "2020-01-27"
+__updated__ = "2020-02-03"
 -------------------------------------------------------
 """
 from Stack_array import Stack
 from Queue_array import Queue
 from Priority_Queue_array import Priority_Queue
+from List_array import List
 
 #Stack
 #------------------------------------------
@@ -221,5 +222,77 @@ def priority_queue_test(a):
         pq.insert(data)
         print('Inserted {} to priority queue'.format(data))
     return
+
+def array_to_list(llist, source):
+    """
+    -------------------------------------------------------
+    Appends contests of source to llist. At finish, source is empty.
+    Last element in source is at rear of llist,
+    first element in source is at front of llist.
+    Use: array_to_list(llist, source)
+    -------------------------------------------------------
+    Parameters:
+        llist - a List object (List)
+        source - a Python list (list)
+    Returns:
+        None
+    -------------------------------------------------------
+    """
+    while len(source) > 0:
+        llist.append(source.pop(0))
+    return
+
+def list_to_array(llist, target):
+    """
+    -------------------------------------------------------
+    Removes contents of llist into target. At finish, llist is empty.
+    Front element of llist is at front of target,
+    rear element of llist is at rear of target.
+    Use: list_to_array(llist, target)
+    -------------------------------------------------------
+    Parameters:
+        llist - a List object (List)
+        target - a Python list (list)
+    Returns:
+        None
+    -------------------------------------------------------
+    """
+    while not llist.is_empty():
+        target.append(llist.pop(0))
+    return
+
+def list_test(source):
+    """
+    -------------------------------------------------------
+    Tests List implementation.
+    The methods of List are tested for both empty and
+    non-empty lists using the data in source
+    Use: list_test(source)
+    -------------------------------------------------------
+    Parameters:
+        source - list of data (list of ?)
+    Returns:
+        None
+    -------------------------------------------------------
+    """
+    lst = List()
+
+    i = 0
+    while i < len(source):
+        lst.append(source[i])
+        print(lst)
+        i += 1
+        if i < len(source):
+            lst.insert(0, source[i])
+            print(lst.find(source[i]))
+            print(lst.index(source[i]))
+        i += 1
+    print(lst.max())
+    print(lst.min())
+    i = 0
+    while not lst.is_empty():
+        print(lst.count(source[i]))
+        print(lst.remove(source[i]))
+        i += 1
 
     return
