@@ -109,7 +109,9 @@ class List:
             True if i is a valid index, False otherwise.
         -------------------------------------------------------
         """
-        return i in range(-len(self._values),len(self._values))
+        valid = -len(self._values) <= i < len(self._values)
+
+        return valid
 
     def _linear_search(self, key):
         """
@@ -375,7 +377,7 @@ class List:
                 as target in the same order, otherwise False. (boolean)
         -------------------------------------------------------
         """
-        eqlen = len(self.values) == len(target._values)
+        eqlen = len(self._values) == len(target._values)
         
         eq = True
         i = 0
@@ -660,7 +662,10 @@ class List:
             None
         -------------------------------------------------------
         """
-        self._values = source1._values
+        self._values = []
+        for item in source1._values:
+            if item not in self._values:
+                self._values.append(item)
         for item in source2._values:
             if item not in self._values:
                 self._values.append(item)
