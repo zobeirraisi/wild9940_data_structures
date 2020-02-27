@@ -6,7 +6,7 @@ Author:  Eric Wildfong
 ID:      190559940
 Email:   wild9940@mylaurier.ca
 Term:    Winter 2020
-__updated__ = "2020-02-17"
+__updated__ = "2020-02-27"
 -------------------------------------------------------
 """
 from copy import deepcopy
