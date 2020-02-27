@@ -6,7 +6,11 @@ Author:  Eric Wildfong
 ID:      190559940
 Email:   wild9940@mylaurier.ca
 Term:    Winter 2020
+<<<<<<< HEAD
 __updated__ = "2020-02-16"
+=======
+__updated__ = "2020-02-03"
+>>>>>>> branch 'master' of https://github.com/elw-arduino/wild9940_data_structures.git
 -------------------------------------------------------
 """
 from copy import deepcopy
@@ -54,7 +58,6 @@ class List:
             the number of values in the list.
         -------------------------------------------------------
         """
-        
         return len(self._values)
 
     def __setitem__(self, i, value):
@@ -89,14 +92,7 @@ class List:
             True if the list contains key, False otherwise. (boolean)
         -------------------------------------------------------
         """
-
-        i = -1
-        j = 0
-        while j < len(self._values) and i == -1:
-            if self._values[j] == key:
-                i = j
-            j += 1
-
+        i = self._linear_search(key)
         return i > -1
 
     def _is_valid_index(self, i):
@@ -113,9 +109,7 @@ class List:
             True if i is a valid index, False otherwise.
         -------------------------------------------------------
         """
-        valid = -len(self._values) <= i
-        
-        return valid and i < len(self._values)
+        return i in range(-len(self._values),len(self._values))
 
     def _linear_search(self, key):
         """
@@ -130,13 +124,15 @@ class List:
             i - the index of key in the list, -1 if key is not found (int)
         -------------------------------------------------------
         """
-        i = -1
-        j = 0
-        while j < len(self._values) and i == -1:
-            if self._values[j] == key:
-                i = j
-            j += 1
-
+        i = 0
+        found = False
+        while i < len(self._values) and not found:
+            if(self._values[i] == key):
+                found = True
+            else:
+                i += 1
+        if not found:
+            i = -1
         return i
 
     def _swap(self, i, j):
@@ -177,7 +173,6 @@ class List:
         -------------------------------------------------------
         """
         self._values += [deepcopy(value)]
-
         return
 
     def apply(self, func):
@@ -270,12 +265,11 @@ class List:
             number - number of times key appears in list (int)
         -------------------------------------------------------
         """
-        number = 0
+        count = 0
         for item in self._values:
             if item == key:
-                number += 1
-
-        return number
+                count += 1
+        return count
 
     def find(self, key):
         """
@@ -289,12 +283,11 @@ class List:
             value - a copy of the full value matching key, otherwise None (?)
         -------------------------------------------------------
         """
-        value = None
-        i = 0
-        while i < len(self._values) and value is None:
-            if self._values[i] == key:
-                value = self._values[i]
-            i += 1
+        index = self._linear_search(key)
+        if index >= 0:
+            value = deepcopy(self._values[index])
+        else:
+            value = None
 
         return value
 
@@ -311,12 +304,7 @@ class List:
               key is not in the list. (int)
         -------------------------------------------------------
         """
-        i = -1
-        j = 0
-        while j < len(self._values) and i == -1:
-            if self._values[j] == key:
-                i = j
-            j += 1
+        i = self._linear_search(key)
 
         return i
 
@@ -335,7 +323,7 @@ class List:
             None
         -------------------------------------------------------
         """
-        # Your code here
+        self._values = self._values[:i]+[deepcopy(value)]+self._values[i:]
 
         return
 
@@ -369,9 +357,8 @@ class List:
             True if the list is empty, False otherwise.
         -------------------------------------------------------
         """
-        # Your code here
 
-        return
+        return len(self._values) == 0
 
     def is_identical(self, target):
         """
@@ -411,9 +398,14 @@ class List:
         """
         assert (len(self._values) > 0), 'Cannot find maximum of an empty list'
 
-        # Your code here
+        value = self._values[0]
+        i = 1
+        while i < len(self._values):
+            if self._values[i] > value:
+                value = self._values[i]
+            i += 1
 
-        return
+        return deepcopy(value)
 
     def min(self):
         """
@@ -427,9 +419,14 @@ class List:
         """
         assert (len(self._values) > 0), 'Cannot find minimum of an empty list'
 
-        # Your code here
+        value = self._values[0]
+        i = 1
+        while i < len(self._values):
+            if self._values[i] < value:
+                value = self._values[i]
+            i += 1
 
-        return
+        return deepcopy(value)
 
     def peek(self):
         """
@@ -443,9 +440,9 @@ class List:
         """
         assert (len(self._values) > 0), 'Cannot peek at an empty list'
 
-        # Your code here
+        value = deepcopy(self._values[0])
 
-        return
+        return value
 
     def pop(self, *args):
         """
@@ -503,9 +500,13 @@ class List:
             value - the full value matching key, otherwise None (?)
         -------------------------------------------------------
         """
-        # Your code here
+        index = self._linear_search(key)
+        if index >= 0:
+            value = self._values.pop(index)
+        else:
+            value = None
 
-        return
+        return value
 
     def remove_front(self):
         """
@@ -633,12 +634,9 @@ class List:
         """
         -------------------------------------------------------
         Splits list so that target1 contains all values < key,
-        and target2 contains all values >= key. source is empty
-        at end.
+        and target2 contains all values >= key.
         Use: target1, target2 = source.split_key()
         -------------------------------------------------------
-        Parameters:
-            key - a key value (?)
         Returns:
             target1 - a new List of values < key (List)
             target2 - a new List of values >= key (List)
