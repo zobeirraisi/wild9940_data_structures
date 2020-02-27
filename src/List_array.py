@@ -2,11 +2,11 @@
 -------------------------------------------------------
 Array version of the list ADT.
 -------------------------------------------------------
-Author:  David Brown
-ID:      999999999
-Email:   dbrown@wlu.ca
+Author:  Eric Wildfong
+ID:      190559940
+Email:   wild9940@mylaurier.ca
 Term:    Winter 2020
-__updated__ = "2020-01-16"
+__updated__ = "2020-02-16"
 -------------------------------------------------------
 """
 from copy import deepcopy
@@ -40,9 +40,9 @@ class List:
         """
         assert self._is_valid_index(i), 'Invalid index value'
 
-        # Your code here
+        value = deepcopy(self._values[i])
 
-        return
+        return value
 
     def __len__(self):
         """
@@ -54,9 +54,8 @@ class List:
             the number of values in the list.
         -------------------------------------------------------
         """
-        # Your code here
-
-        return
+        
+        return len(self._values)
 
     def __setitem__(self, i, value):
         """
@@ -74,7 +73,7 @@ class List:
         """
         assert self._is_valid_index(i), 'Invalid index value'
 
-        # Your code here
+        self._values[i] = deepcopy(value)
 
         return
 
@@ -91,7 +90,12 @@ class List:
         -------------------------------------------------------
         """
 
-        # Your code here
+        i = -1
+        j = 0
+        while j < len(self._values) and i == -1:
+            if self._values[j] == key:
+                i = j
+            j += 1
 
         return i > -1
 
@@ -109,9 +113,9 @@ class List:
             True if i is a valid index, False otherwise.
         -------------------------------------------------------
         """
-        # Your code here
-
-        return
+        valid = -len(self._values) <= i
+        
+        return valid and i < len(self._values)
 
     def _linear_search(self, key):
         """
@@ -126,9 +130,14 @@ class List:
             i - the index of key in the list, -1 if key is not found (int)
         -------------------------------------------------------
         """
-        # Your code here
+        i = -1
+        j = 0
+        while j < len(self._values) and i == -1:
+            if self._values[j] == key:
+                i = j
+            j += 1
 
-        return
+        return i
 
     def _swap(self, i, j):
         """
@@ -149,7 +158,9 @@ class List:
         assert self._is_valid_index(i), 'Invalid index i'
         assert self._is_valid_index(j), 'Invalid index j'
 
-        # Your code here
+        value = self._values[j]
+        self._values[j] = self._values[i]
+        self._values[i] = value
 
         return
 
@@ -165,7 +176,7 @@ class List:
             None
         -------------------------------------------------------
         """
-        # Your code here
+        self._values += [deepcopy(value)]
 
         return
 
@@ -182,7 +193,8 @@ class List:
             None
         -------------------------------------------------------
         """
-        # Your code here
+        for i in range(len(self._values)):
+            self._values[i] = func(self._values[i])
 
         return
 
@@ -197,7 +209,12 @@ class List:
             None
         -------------------------------------------------------
         """
-        # Your code here
+        i = 0
+        while i < len(self._values):
+            if self._values[i] in self._values[:i]:
+                self.pop(i)
+            else:
+                i += 1
 
         return
 
@@ -217,7 +234,12 @@ class List:
             None
         -------------------------------------------------------
         """
-        # Your code here
+        self._values = []
+        while len(source1._values) > 0 or len(source2._values) > 0:
+            if len(source1._values) > 0:
+                self._values.append(source1._values.pop(0))
+            if len(source2._values) > 0:
+                self._values.append(source2._values.pop(0))
 
         return
 
@@ -231,9 +253,10 @@ class List:
             target - a copy of self (List)
         -------------------------------------------------------
         """
-        # Your code here
+        target = List()
+        target._values = deepcopy(self._values)
 
-        return
+        return target
 
     def count(self, key):
         """
@@ -247,9 +270,12 @@ class List:
             number - number of times key appears in list (int)
         -------------------------------------------------------
         """
-        # Your code here
+        number = 0
+        for item in self._values:
+            if item == key:
+                number += 1
 
-        return
+        return number
 
     def find(self, key):
         """
@@ -263,9 +289,14 @@ class List:
             value - a copy of the full value matching key, otherwise None (?)
         -------------------------------------------------------
         """
-        # Your code here
+        value = None
+        i = 0
+        while i < len(self._values) and value is None:
+            if self._values[i] == key:
+                value = self._values[i]
+            i += 1
 
-        return
+        return value
 
     def index(self, key):
         """
@@ -280,9 +311,14 @@ class List:
               key is not in the list. (int)
         -------------------------------------------------------
         """
-        # Your code here
+        i = -1
+        j = 0
+        while j < len(self._values) and i == -1:
+            if self._values[j] == key:
+                i = j
+            j += 1
 
-        return
+        return i
 
     def insert(self, i, value):
         """
@@ -317,8 +353,10 @@ class List:
             None
         -------------------------------------------------------
         """
-        # Your code here
-
+        self._values = []
+        for item in source1._values:
+            if item in source2._values and item not in self._values:
+                self._values.append(item)
         return
 
     def is_empty(self):
@@ -350,9 +388,16 @@ class List:
                 as target in the same order, otherwise False. (boolean)
         -------------------------------------------------------
         """
-        # Your code here
+        eqlen = len(self.values) == len(target._values)
+        
+        eq = True
+        i = 0
+        while eqlen and i < len(self._values) and eq:
+            if self._values[i] != target._values[i]:
+                eq = False
+            i += 1
 
-        return
+        return eqlen and eq
 
     def max(self):
         """
@@ -442,7 +487,7 @@ class List:
             None
         -------------------------------------------------------
         """
-        # Your code here
+        self._values = [deepcopy(value)]+self._values
 
         return
 
@@ -474,9 +519,7 @@ class List:
         """
         assert (len(self._values) > 0), 'Cannot remove from an empty list'
 
-        # Your code here
-
-        return
+        return self._values.pop(0)
 
     def remove_many(self, key):
         """
@@ -490,7 +533,12 @@ class List:
             None
         -------------------------------------------------------
         """
-        # Your code here
+        i = 0
+        while i < len(self._values):
+            if self._values[i] == key:
+                self._values.pop(i)
+            else:
+                i += 1
 
         return
 
@@ -521,9 +569,14 @@ class List:
             target2 - a new List with <= 50% of the original List (List)
         -------------------------------------------------------
         """
-        # Your code here
+        target1 = List()
+        target2 = List()
+        while len(self._values) > 0:
+            target1._values.append(self._values.pop(0))
+            if len(self._values) > 0:
+                target2._values = [self._values.pop()]+target2._values
 
-        return
+        return target1, target2
 
     def split_alt(self):
         """
@@ -538,9 +591,14 @@ class List:
             target2 - contains other alternating values from source (List)
         -------------------------------------------------------
         """
-        # Your code here
+        target1 = List()
+        target2 = List()
+        while len(self._values) > 0:
+            target1._values.append(self._values.pop(0))
+            if len(self._values) > 0:
+                target2._values.append(self._values.pop(0))
 
-        return
+        return target1, target2
 
     def split_apply(self, func):
         """
@@ -559,9 +617,17 @@ class List:
             target2 - a new List with values where func(value) is False (List)
         -------------------------------------------------------
         """
-        # Your code here
+        target1 = List()
+        target2 = List()
+        
+        while len(self._values) > 0:
+            value = self._values.pop(0)
+            if func(value):
+                target1._values.append(value)
+            else:
+                target2._values.append(value)
 
-        return
+        return target1, target2
 
     def split_key(self, key):
         """
@@ -596,7 +662,10 @@ class List:
             None
         -------------------------------------------------------
         """
-        # Your code here
+        self._values = source1._values
+        for item in source2._values:
+            if item not in self._values:
+                self._values.append(item)
 
         return
 

@@ -2,11 +2,11 @@
 -------------------------------------------------------
 Array version of the Sorted_List ADT.
 -------------------------------------------------------
-Author:  David Brown
-ID:      999999999
-Email:   dbrown@wlu.ca
+Author:  Eric Wildfong
+ID:      190559940
+Email:   wild9940@mylaurier.ca
 Term:    Winter 2020
-__updated__ = "2020-01-16"
+__updated__ = "2020-02-17"
 -------------------------------------------------------
 """
 from copy import deepcopy
@@ -38,10 +38,11 @@ class Sorted_List:
             True if source contains key, False otherwise. (boolean)
         -------------------------------------------------------
         """
+        i = 0
+        while i < len(self._values) and self._values[i] < key:
+            i += 1
 
-        # Your code here
-
-        return
+        return i < len(self._values)
 
     def __getitem__(self, i):
         """
@@ -57,9 +58,9 @@ class Sorted_List:
         """
         assert self._is_valid_index(i), 'Invalid index value'
 
-        # Your code here
+        value = deepcopy(self._values[i])
 
-        return
+        return value
 
     def __len__(self):
         """
@@ -71,9 +72,7 @@ class Sorted_List:
             the number of values in source.
         -------------------------------------------------------
         """
-        # Your code here
-
-        return
+        return len(self._values)
 
     def _binary_search(self, key):
         """
@@ -108,9 +107,9 @@ class Sorted_List:
             True if i is a valid index, False otherwise.
         -------------------------------------------------------
         """
-        # Your code here
+        valid = -len(self._values) <= i < len(self._values)
 
-        return
+        return valid
 
     def clean(self):
         """
@@ -123,7 +122,12 @@ class Sorted_List:
             in source. The first occurrence of each value is preserved.
         -------------------------------------------------------
         """
-        # Your code here
+        i = 1
+        while i < len(self._values):
+            if self._values[i] == self._values[i-1]:
+                self._values.pop(i)
+            else:
+                i += 1
 
         return
 
@@ -175,9 +179,12 @@ class Sorted_List:
             number - the number of times key appears in source (int)
         -------------------------------------------------------
         """
-        # Your code here
+        number = 0
+        for item in self._values:
+            if key == item:
+                number += 1
 
-        return
+        return number
 
     def find(self, key):
         """
@@ -191,9 +198,14 @@ class Sorted_List:
             value - a copy of the full value matching key, otherwise None (?)
         -------------------------------------------------------
         """
-        # Your code here
+        value = None
+        i = 0
+        while i < len(self._values) and value is None:
+            if key == self._values[i]:
+                value = deepcopy(self._values[i])
+            i += 1
 
-        return
+        return value
 
     def index(self, key):
         """
@@ -207,9 +219,14 @@ class Sorted_List:
             i - the location of the value matching key, otherwise -1 (int)
         -------------------------------------------------------
         """
-        # Your code here
+        i = -1
+        j = 0
+        while j < len(self._values) and i == -1:
+            if key == self._values[j]:
+                i = j
+            j += 1
 
-        return
+        return i
 
     def insert(self, value):
         """
@@ -225,7 +242,10 @@ class Sorted_List:
             None
         -------------------------------------------------------
         """
-        # Your code here
+        i = 0
+        while i < len(self._values) and self._values[i] <= value:
+            i += 1
+        self._values.insert(i, deepcopy(value))
 
         return
 
@@ -243,7 +263,16 @@ class Sorted_List:
             None
         -------------------------------------------------------
         """
-        # Your code here
+        self._values = []
+        i = 0
+        j = 0
+        while i < len(source1._values) and j < len(source2._values):
+            if source1._values[i] == source2._values[j] and source1._values[i] not in self._values:
+                    self._values.append(source1._values[i])
+            if source2._values[j] < source1._values[i]:
+                j += 1
+            else:
+                i += 1
 
         return
 
@@ -257,9 +286,7 @@ class Sorted_List:
             True if source is empty, False otherwise.
         -------------------------------------------------------
         """
-        # Your code here
-
-        return
+        return len(self._values) == 0
 
     def is_identical(self, target):
         """
@@ -275,9 +302,14 @@ class Sorted_List:
                 in the same order, otherwise False. (boolean)
         -------------------------------------------------------
         """
-        # Your code here
+        identical = len(self._values) == len(target._values)
+        i = 0
+        while identical and i < len(self._values):
+            if self._values[i] != target._values[i]:
+                identical = False
+            i += 1
 
-        return
+        return identical
 
     def max(self):
         """
@@ -291,9 +323,9 @@ class Sorted_List:
         """
         assert (len(self._values) > 0), 'Cannot find maximum of an empty list'
 
-        # Your code here
+        value = deepcopy(self._values[-1]);
 
-        return
+        return value
 
     def min(self):
         """
@@ -307,9 +339,9 @@ class Sorted_List:
         """
         assert (len(self._values) > 0), 'Cannot find minimum of an empty list'
 
-        # Your code here
+        value = deepcopy(self._values[0])
 
-        return
+        return value
 
     def peek(self):
         """
@@ -323,9 +355,9 @@ class Sorted_List:
         """
         assert (len(self._values) > 0), 'Cannot peek at an empty list'
 
-        # Your code here
+        value = deepcopy(self._values[0])
 
-        return
+        return value
 
     def pop(self, *args):
         """
@@ -367,9 +399,14 @@ class Sorted_List:
             value - the full value matching key, otherwise None (?)
         -------------------------------------------------------
         """
-        # Your code here
+        value = None
+        i = 0
+        while i < len(self._values) and value is None:
+            if key == self._values[i]:
+                value = self._values.pop(i)
+            i += 1
 
-        return
+        return value
 
     def remove_front(self):
         """
@@ -383,9 +420,9 @@ class Sorted_List:
         """
         assert (len(self._values) > 0), 'Cannot remove from an empty list'
 
-        # Your code here
+        value = self._values.pop(0)
 
-        return
+        return value
 
     def remove_many(self, key):
         """
@@ -399,7 +436,12 @@ class Sorted_List:
             None
         ---------------------------------------------------------
         """
-        # Your code here
+        i = 0
+        while i < len(self._values):
+            if key == self._values[i]:
+                self._values.pop(i)
+            else:
+                i += 1
 
         return
 
@@ -415,9 +457,15 @@ class Sorted_List:
             target2 - a new List with <= 50% of the original List (Sorted_List)
         -------------------------------------------------------
         """
-        # Your code here
+        target1 = Sorted_List()
+        target2 = Sorted_List()
+        half = len(self._values) // 2
+        while half < len(self._values):
+            target1._values.append(self._values.pop(0))
+        while len(self._values) > 0:
+            target2._values.append(self._values.pop(0))
 
-        return
+        return target1,target2
 
     def split_alt(self):
         """
@@ -434,9 +482,18 @@ class Sorted_List:
             target2 - the odd indexed elements of the list (Sorted_List)
         -------------------------------------------------------
         """
-        # Your code here
+        target1 = Sorted_List()
+        target2 = Sorted_List()
+        i = 0
+        while i < len(self._values):
+            if i % 2 == 0:
+                target1._values.append(self._values[i])
+            else:
+                target2._values.append(self._values[i])
+            i += 1
+        self._values = []
 
-        return
+        return target1, target2
 
     def split_apply(self, func):
         """
@@ -474,9 +531,16 @@ class Sorted_List:
             target2 - a new Sorted List with values >= key (Sorted_List)
         -------------------------------------------------------
         """
-        # Your code here
+        target1 = Sorted_List()
+        target2 = Sorted_List()
+        while len(self._values) > 0:
+            value = self._values.pop(0)
+            if value < key:
+                target1._values.append(value)
+            else:
+                target2._values.append(value)
 
-        return
+        return target1,target2
 
     def union(self, source1, source2):
         """
@@ -492,8 +556,29 @@ class Sorted_List:
             None
         -------------------------------------------------------
         """
-        # Your code here
-
+        self._values = []
+        i = 0
+        j = 0
+        while i < len(source1._values) and j < len(source2._values):
+            val1 = source1._values[i]
+            val2 = source2._values[j]
+            if val1 <= val2:
+                if val1 not in self._values:
+                    self._values.append(val1)
+                i += 1
+            if val2 <= val1:
+                if val2 not in self._values:
+                    self._values.append(val2)
+                j += 1
+        while i < len(source1._values):
+            if source1._values[i] not in self._values:
+                self._values.append(source1._values[i])
+            i += 1
+        while j < len(source2._values):
+            if source2._values[j] not in self._values:
+                self._values.append(source2._values[j])
+            j += 1
+        
         return
 
     def __iter__(self):
