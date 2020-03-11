@@ -2,11 +2,11 @@
 -------------------------------------------------------
 Linked version of the Deque ADT.
 -------------------------------------------------------
-Author:  David Brown
-ID:      999999999
-Email:   dbrown@wlu.ca
+Author:  Eric Wildfong
+ID:      190559940
+Email:   wild9940@mylaurier.ca
 Term:    Winter 2020
-__updated__ = "2020-01-16"
+__updated__ = "2020-03-11"
 -------------------------------------------------------
 """
 # Imports
@@ -61,8 +61,7 @@ class Deque:
             True if the deque is empty, False otherwise.
         -------------------------------------------------------
         """
-		# your code here
-        return
+        return self._count == 0
 
     def __len__(self):
         """
@@ -74,8 +73,7 @@ class Deque:
             the number of values in the deque (int)
         -------------------------------------------------------
         """
-		# your code here
-        return
+        return self._count
 
     def insert_front(self, value):
         """
@@ -89,7 +87,11 @@ class Deque:
             None
         -------------------------------------------------------
         """
-		# your code here
+        
+        self._front = _Deque_Node(deepcopy(value),None,self._front)
+        if self._rear is None:
+            self._rear = self._front
+        self._count += 1
         return
 
     def insert_rear(self, value):
@@ -104,7 +106,14 @@ class Deque:
             None
         -------------------------------------------------------
         """
-		# your code here
+        
+        temp = _Deque_Node(deepcopy(value),self._rear,None)
+        if self._front is None:
+            self._front = temp
+        if self._rear is not None:
+            self._rear._next = temp
+        self._count += 1
+        self._rear = temp
         return
 
     def remove_front(self):
@@ -118,10 +127,15 @@ class Deque:
         -------------------------------------------------------
         """
         assert self._front is not None, "Cannot remove from an empty deque"
-		
-		# your code here
-        return
-        return value
+        
+        value = self._front
+        self._front = value._next
+        if self._front is None:
+            self._rear = None
+        else:
+            self._front._prev = None
+        self._count -= 1
+        return deepcopy(value._value)
 
     def remove_rear(self):
         """
@@ -134,9 +148,15 @@ class Deque:
         -------------------------------------------------------
         """
         assert self._rear is not None, "Cannot remove from an empty deque"
-
-		# your code here
-        return
+        
+        value = self._rear
+        self._rear = value._prev
+        if self._rear is not None:
+            self._rear._next = None
+        else:
+            self._front = None
+        self._count -= 1
+        return deepcopy(value._value)
 
     def peek_front(self):
         """
@@ -149,9 +169,8 @@ class Deque:
         -------------------------------------------------------
         """
         assert self._front is not None, "Cannot peek at an empty deque"
-
-		# your code here
-        return
+        
+        return deepcopy(self._front._value)
 
     def peek_rear(self):
         """
@@ -164,9 +183,8 @@ class Deque:
         -------------------------------------------------------
         """
         assert self._rear is not None, "Cannot peek at an empty deque"
-
-		# your code here
-        return
+        
+        return deepcopy(self._rear._value)
 
     def _swap(self, l, r):
         """
@@ -184,8 +202,42 @@ class Deque:
         -------------------------------------------------------
         """
         assert l is not None and r is not None, "nodes to swap cannot be None"
-
-		# your code here
+        
+        if self._front is l:
+            self._front = r
+        elif self._front is r:
+            self._front = l
+        if self._rear is l:
+            self._rear = r
+        elif self._rear is r:
+            self._rear = l
+        if r._next is l:
+            temp_next = l._next
+            l._next = r
+            l._prev = r._prev
+            r._prev = l
+            r._next = temp_next
+        elif l._next is r:
+            temp_next = r._next
+            r._next = l
+            r._prev = l._prev
+            l._prev = r
+            l._next = temp_next
+        else:
+            temp_next = l._next
+            temp_prev = l._prev
+            l._next = r._next
+            l._prev = r._prev
+            r._next = temp_next
+            r._prev = temp_prev
+        if r._prev is not None:
+            r._prev._next = r
+        if r._next is not None:
+            r._next._prev = r
+        if l._prev is not None:
+            l._prev._next = l
+        if l._next is not None:
+            l._next._prev = l
         return
 
     def __iter__(self):

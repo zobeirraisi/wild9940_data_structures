@@ -2,11 +2,11 @@
 -------------------------------------------------------
 Linked version of the Queue ADT.
 -------------------------------------------------------
-Author:  David Brown
-ID:      999999999
-Email:   dbrown@wlu.ca
+Author:  Eric Wildfong
+ID:      190559940
+Email:   wild9940@mylaurier.ca
 Term:    Winter 2020
-__updated__ = "2020-01-16"
+__updated__ = "2020-03-11"
 -------------------------------------------------------
 """
 from copy import deepcopy
@@ -58,8 +58,7 @@ class Queue:
             True if queue is empty, False otherwise.
         -------------------------------------------------------
         """
-        # your code here
-        return
+        return self._front is None
 
     def is_full(self):
         """
@@ -84,8 +83,7 @@ class Queue:
             the number of values in queue.
         -------------------------------------------------------
         """
-        # your code here
-        return
+        return self._count
 
     def insert(self, value):
         """
@@ -99,7 +97,13 @@ class Queue:
             a copy of value is added to the rear of queue.
         -------------------------------------------------------
         """
-        # your code here
+        temp = _Queue_Node(deepcopy(value),None)
+        if self._front is None:
+            self._front = temp
+        if self._rear is not None:
+            self._rear._next = temp
+        self._count += 1
+        self._rear = temp
         return
 
     def remove(self):
@@ -115,8 +119,12 @@ class Queue:
         """
         assert self._front is not None, "Cannot remove from an empty queue"
 
-        # your code here
-        return
+        value = self._front
+        self._front = value._next
+        if self._front is None:
+            self._rear = None
+        self._count -= 1
+        return value._value
 
     def peek(self):
         """
@@ -131,8 +139,9 @@ class Queue:
         """
         assert self._front is not None, "Cannot peek at an empty queue"
 
-        # your code here
-        return
+        value = deepcopy(self._front._value)
+
+        return value
 
     def _move_front(self, source):
         """
@@ -187,7 +196,13 @@ class Queue:
             None
         -------------------------------------------------------
         """
-        # your code here
+        while source1._front is not None and source2._front is not None:
+            self._move_front_to_rear(source1)
+            self._move_front_to_rear(source2)
+        while source1._front is not None:
+            self._move_front_to_rear(source1)
+        while source2._front is not None:
+            self._move_front_to_rear(source2)
         return
 
     def combine_r(self, source1, source2):
@@ -222,8 +237,18 @@ class Queue:
             target2 - contains other alternating values from source (Queue)
         -------------------------------------------------------
         """
-        # your code here
-        return
+        target1 = Queue()
+        target2 = Queue()
+        left = True
+
+        while self._front is not None:
+
+            if left:
+                target1._move_front_to_rear(self)
+            else:
+                target2._move_front_to_rear(self)
+            left = not left
+        return target1, target2
 
     def split_alt_r(self):
         """
@@ -258,8 +283,18 @@ class Queue:
                 otherwise. (boolean)
         -------------------------------------------------------
         """
-        # your code here
-        return
+        if self._count != target._count:
+            identical = False
+        else:
+            source_node = self._front
+            target_node = target._front
+
+            while source_node is not None and source_node._value == target_node._value:
+                source_node = source_node._next
+                target_node = target_node._next
+
+            identical = source_node is None
+        return identical
 
     def is_identical_r(self, target):
         """
@@ -280,7 +315,40 @@ class Queue:
         """
         # your code here
         return
-
+    
+    def _move_front_to_rear(self, source):
+        """
+        -------------------------------------------------------
+        Moves the front node from the source List to the rear
+        of the current List. Private helper method.
+        Use: self._move_front_to_rear(source)
+        -------------------------------------------------------
+        Parameters:
+            rs - a non-empty linked List (List)
+        Returns:
+            The current List contains the old front of the source List and
+            its count is updated. The source List front and count are updated.
+        -------------------------------------------------------
+        """
+        assert source._front is not None, \
+            "Cannot move the front of an empty List"
+        node = source._front
+        # Update the source list
+        source._count -= 1
+        source._front = source._front._next
+        if source._front is None:
+            # Clean up source list if empty.
+            source._rear = None
+        # Update the target list
+        if self._rear is None:
+            self._front = node
+        else:
+            self._rear._next = node
+        node._next = None
+        self._rear = node
+        self._count += 1
+        return
+    
     def __iter__(self):
         """
         USE FOR TESTING ONLY
