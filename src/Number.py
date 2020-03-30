@@ -2,11 +2,11 @@
 -------------------------------------------------------
 A simple number class.
 -------------------------------------------------------
-Author:  David Brown
-ID:      999999999
-Email:   dbrown@wlu.ca
-Section: CP164 C
-__updated__ = "2019-04-27"
+Author:  Eric Wildfong
+ID:      190559940
+Email:   wild9940@mylaurier.ca
+Term:    Winter 2020
+__updated__ = "2020-03-30"
 -------------------------------------------------------
 """
 

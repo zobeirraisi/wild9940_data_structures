@@ -2,11 +2,11 @@
 -------------------------------------------------------
 Array versions of various sorts.
 -------------------------------------------------------
-Author:  David Brown
-ID:      999999999
-Email:   dbrown@wlu.ca
+Author:  Eric Wildfong
+ID:      190559940
+Email:   wild9940@mylaurier.ca
 Term:    Winter 2020
-__updated__ = "2020-01-16"
+__updated__ = "2020-03-30"
 -------------------------------------------------------
 """
 # Imports
