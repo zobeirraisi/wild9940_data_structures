@@ -11,6 +11,7 @@ __updated__ = "2019-04-27"
 """
 # Imports
 from copy import deepcopy
+from platform import node
 
 class _BST_Node:
 
@@ -303,7 +304,7 @@ class BST:
             found = True
         elif key < node._value:
             found = self._contains_aux(key,node._left)
-        elif key > node._value:
+        else:
             found = self._contains_aux(key, node._right)
         return found
 
@@ -365,10 +366,24 @@ class BST:
         ---------------------------------------------------------
         """
         assert self._root is not None, "Cannot locate a parent in an empty BST"
-
-
-        # your code here
-
+        parent = None
+        node = self._root
+        while node is not None and node._value != key:
+            parent = node
+            if key < node._value:
+                node = node._left
+            elif key > node._value:
+                node = node._right
+        if node is None:
+            # Key not found
+            value = None
+        else:
+            # Key found
+            if parent is None:
+                value = None
+            else:
+                value = deepcopy(parent._value)
+        return value
 
     def parent_r(self, key):
         """
@@ -383,10 +398,21 @@ class BST:
         ---------------------------------------------------------
         """
         assert self._root is not None, "Cannot locate a parent in an empty BST"
-
-
-        # your code here
-
+        return self._parent_r_aux(key, None, self._root)
+    
+    def _parent_r_aux(self,key,parent,node):
+        if node == None:
+            value = None
+        elif key == node._value:
+            if parent is None:
+                value = None
+            else:
+                value = deepcopy(parent._value)
+        elif key < node._value:
+            value = self._parent_r_aux(key,node,node._left)
+        else:
+            value = self._parent_r_aux(key,node,node._right)
+        return value
 
     def max(self):
         """
@@ -533,7 +559,10 @@ class BST:
         ----------------------------------------------------------
         """
 
-        # your code here
+        zero = self._leaf_count_aux(self._root) # work at lowest level
+        one = self._one_child_count_aux(self._root) # work at lowest level
+        two = self._two_child_count_aux(self._root) # work at lowest level
+        return zero, one, two
 
 
     def total_depth(self):
